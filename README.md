@@ -97,6 +97,7 @@ Protects accounts from throttling and bans.
 
 ## Project Structure
 
+```text 
 linkedin-automation/
 │
 ├── main.go # Core automation flow
