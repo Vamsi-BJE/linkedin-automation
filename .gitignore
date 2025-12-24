@@ -1,0 +1,15 @@
+# Environment variables
+.env
+
+# Runtime state
+state.json
+
+# Browser profiles / automation artifacts
+chrome-profile/
+rod-profile/
+
+# Compiled binaries
+*.exe
+
+# Logs
+*.log
