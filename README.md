@@ -125,7 +125,7 @@ linkedin-automation/
 ├── state.json # Execution tracking
 └── README.md
 
-
+```
 ---
 
 ## Technology Stack
