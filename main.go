@@ -20,7 +20,6 @@ import (
 func main() {
 	rand.Seed(time.Now().UnixNano())
 
-	// ---------- CONFIG ----------
 	cfg := config.Load()
 	if cfg.Email == "" || cfg.Password == "" {
 		log.Fatal("Missing credentials")
@@ -31,7 +30,6 @@ func main() {
 		log.Fatal("Rate limit reached")
 	}
 
-	// ---------- BROWSER ----------
 	logx.Logger.Println("Starting browser...")
 	u := launcher.New().
 		Headless(false).
@@ -42,10 +40,8 @@ func main() {
 	browser := rod.New().ControlURL(u).MustConnect()
 	defer browser.Close()
 
-	// SINGLE PAGE FOR ENTIRE FLOW
 	page := rodstealth.MustPage(browser)
 
-	// ---------- LOGIN ----------
 	logx.Logger.Println("Opening LinkedIn login page...")
 	page.MustNavigate("https://www.linkedin.com/login")
 	time.Sleep(3 * time.Second)
@@ -73,7 +69,6 @@ func main() {
 	stealth.RandomScroll(page)
 	time.Sleep(1 * time.Second)
 
-	// ---------- PROFILE NAVIGATION ----------
 	logx.Logger.Println("Locating profile...")
 	profiles, err := page.Elements("a[href*='/in/']")
 	if err != nil || len(profiles) == 0 {
@@ -89,7 +84,6 @@ func main() {
 
 	time.Sleep(4 * time.Second)
 
-	// ---------- CONNECT (SIMULATION) ----------
 	logx.Logger.Println("Checking for Connect button...")
 	buttons, _ := page.Elements("button")
 	foundConnect := false
@@ -109,7 +103,6 @@ func main() {
 		logx.Logger.Println("Connect not available (Follow / Message only profile).")
 	}
 
-	// ---------- MESSAGING (SAME TAB) ----------
 	logx.Logger.Println("Navigating to Messaging (same tab)...")
 	page.MustNavigate("https://www.linkedin.com/messaging/")
 	time.Sleep(4 * time.Second)
@@ -132,7 +125,6 @@ func main() {
 		logx.Logger.Println("No message threads found (New Account).")
 	}
 
-	// ---------- STATE ----------
 	st.Runs++
 	state.Save(st)
 
